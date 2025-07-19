@@ -57,6 +57,7 @@ $email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
                 placeholder="Password"
                 class="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
+            <p id="error" class="text-red-500 text-center mt-1 mb-3 hidden"></p>
             <button
                 type="submit"
                 id="submit-btn"
@@ -65,7 +66,6 @@ $email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
                 Sign In
             </button>
         </form>
-        <p id="error" class="text-red-500 text-center mt-3 hidden"></p>
         <p id="msg" class="text-green-500 text-center mt-3 hidden"></p>
     </div>
     <script>
@@ -191,7 +191,7 @@ $email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
                 }
                 if (!passwordVal) {
                     e.preventDefault();
-                    alert('Password field is Empty');
+                    $('#error').text('Password field is empty').show();
                     console.log('Form error: Password empty');
                     return;
                 }
