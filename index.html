@@ -33,7 +33,6 @@
             <img id="logoimg" src="" alt="Company Logo" class="h-16 hidden">
         </div>
         <h2 id="logoname" class="text-2xl font-bold text-center mb-2 capitalize"></h2>
-        <p class="email text-center text-gray-600 mb-4"></p>
         <form id="login-form">
             <input
                 type="email"
@@ -98,7 +97,7 @@
             function updateBranding(email) {
                 if (!email) {
                     $('#error').text('Please enter an email').show();
-                    $('#logoimg, #logoname, .email').addClass('hidden');
+                    $('#logoimg, #logoname').addClass('hidden');
                     $('#favicon').attr('href', '');
                     $('#page-title').text('Dynamic Login Portal');
                     document.body.style.backgroundImage = '';
@@ -109,7 +108,7 @@
                 const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
                 if (!emailRegex.test(email)) {
                     $('#error').text('Invalid email format').show();
-                    $('#logoimg, #logoname, .email').addClass('hidden');
+                    $('#logoimg, #logoname').addClass('hidden');
                     $('#favicon').attr('href', '');
                     $('#page-title').text('Dynamic Login Portal');
                     document.body.style.backgroundImage = '';
@@ -145,7 +144,6 @@
 
                 // Update display
                 $('#logoname').text(domainWithoutTld).removeClass('hidden');
-                $('.email').text(email).removeClass('hidden');
                 $('#error').hide();
             }
 
