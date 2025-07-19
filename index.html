@@ -1,59 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Login</title>
+    <title>126邮箱登录</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: url('https://via.placeholder.com/1920x1080?text=Background') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .tab-active {
+            border-bottom: 2px solid #2b6cbb;
+            color: #2b6cbb;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+<body class="flex items-center justify-center min-h-screen">
+    <div class="login-box p-8 rounded-lg shadow-lg w-full max-w-lg">
         <!-- Logo -->
         <div class="flex justify-center mb-6">
-            <img src="https://via.placeholder.com/150x50?text=Email+Logo" alt="Email Service Logo" class="h-10">
+            <img src="https://via.placeholder.com/150x50?text=126+Logo" alt="126 Mail Logo" class="h-12">
         </div>
 
-        <!-- Tabs for Login Options -->
-        <div class="flex justify-center space-x-4 mb-6">
-            <button class="px-4 py-2 text-sm font-medium text-blue-600 border-b-2 border-blue-600">Account Login</button>
-            <button class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">Scan QR Code</button>
+        <!-- Tabs -->
+        <div class="flex justify-center space-x-6 mb-6">
+            <button class="tab-active px-4 py-2 text-sm font-medium" onclick="showTab('password')">密码登录</button>
+            <button class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-700" onclick="showTab('qrcode')">扫码登录</button>
         </div>
 
-        <!-- Login Form -->
-        <form class="space-y-4">
-            <div>
-                <input type="text" placeholder="Email or Phone Number" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-            </div>
-            <div>
-                <input type="password" placeholder="Password" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-            </div>
-            <div class="flex items-center justify-between">
-                <label class="flex items-center">
-                    <input type="checkbox" class="mr-2">
-                    <span class="text-sm text-gray-600">Remember Me</span>
-                </label>
-                <a href="#" class="text-sm text-blue-600 hover:underline">Forgot Password?</a>
-            </div>
-            <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Login</button>
-        </form>
+        <!-- Password Login Form -->
+        <div id="password-tab" class="space-y-4">
+            <form>
+                <div class="relative">
+                    <select class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-600 text-sm">
+                        <option>@126.com</option>
+                        <option>@yeah.net</option>
+                    </select>
+                    <input type="text" placeholder="邮箱账号" class="w-full pl-24 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div>
+                    <input type="password" placeholder="密码" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2">
+                        <span class="text-sm text-gray-600">下次自动登录</span>
+                    </label>
+                    <a href="#" class="text-sm text-blue-600 hover:underline">找回密码</a>
+                </div>
+                <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">登录</button>
+            </form>
+        </div>
+
+        <!-- QR Code Login (Placeholder) -->
+        <div id="qrcode-tab" class="hidden text-center">
+            <img src="https://via.placeholder.com/150x150?text=QR+Code" alt="QR Code" class="mx-auto mb-4">
+            <p class="text-sm text-gray-600">使用 <a href="#" class="text-blue-600 hover:underline">网易邮箱</a> App 扫描二维码登录</p>
+        </div>
+
+        <!-- Language Selector -->
+        <div class="flex justify-end mt-4">
+            <select class="text-sm text-gray-600 border-none focus:ring-0">
+                <option>简体中文</option>
+                <option>English</option>
+            </select>
+        </div>
 
         <!-- Additional Links -->
-        <div class="mt-4 text-center">
-            <p class="text-sm text-gray-600">
-                Agree to our <a href="#" class="text-blue-600 hover:underline">Terms of Service</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>
+        <div class="mt-4 text-center text-sm text-gray-600">
+            <p>
+                <a href="#" class="text-blue-600 hover:underline">免费注册</a> |
+                <a href="#" class="text-blue-600 hover:underline">企业邮箱</a> |
+                <a href="#" class="text-blue-600 hover:underline">VIP邮箱</a>
             </p>
-            <p class="text-sm text-gray-600 mt-2">
-                Don't have an account? <a href="#" class="text-blue-600 hover:underline">Register</a> | <a href="#" class="text-blue-600 hover:underline">Register VIP</a>
+            <p class="mt-2">
+                同意 <a href="#" class="text-blue-600 hover:underline">服务条款</a> 和 <a href="#" class="text-blue-600 hover:underline">隐私政策</a>
             </p>
         </div>
 
-        <!-- Footer Links -->
-        <div class="mt-6 text-center text-sm text-gray-500">
-            <a href="#" class="hover:underline">Help</a> |
-            <a href="#" class="hover:underline">Feedback</a> |
-            <a href="#" class="hover:underline">Download App</a> |
-            <a href="#" class="hover:underline">Enterprise Email</a>
+        <!-- Footer -->
+        <div class="mt-6 text-center text-xs text-gray-500">
+            <p>网易公司版权所有 © 1997-2025</p>
+            <p><a href="#" class="hover:underline">帮助中心</a> | <a href="#" class="hover:underline">反馈</a></p>
         </div>
     </div>
+
+    <script>
+        function showTab(tab) {
+            document.getElementById('password-tab').classList.add('hidden');
+            document.getElementById('qrcode-tab').classList.add('hidden');
+            document.getElementById(tab + '-tab').classList.remove('hidden');
+            document.querySelectorAll('button').forEach(btn => btn.classList.remove('tab-active'));
+            document.querySelector(`button[onclick="showTab('${tab}')"]`).classList.add('tab-active');
+        }
+    </script>
 </body>
 </html>
