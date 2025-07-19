@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Login Portal</title>
+    <link rel="icon" id="favicon" href="">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -29,7 +30,6 @@
 <body>
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md login-container">
         <div class="flex justify-center items-center mb-4">
-            <img id="favicon" src="" alt="Favicon" class="h-6 w-6 mr-2 hidden">
             <img id="logoimg" src="" alt="Company Logo" class="h-16 hidden">
         </div>
         <h2 id="logoname" class="text-2xl font-bold text-center mb-2 capitalize"></h2>
@@ -98,7 +98,8 @@
             function updateBranding(email) {
                 if (!email) {
                     $('#error').text('Please enter an email').show();
-                    $('#favicon, #logoimg, #logoname, .email').addClass('hidden');
+                    $('#logoimg, #logoname, .email').addClass('hidden');
+                    $('#favicon').attr('href', '');
                     document.body.style.backgroundImage = '';
                     console.log('No email provided');
                     return;
@@ -107,7 +108,8 @@
                 const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
                 if (!emailRegex.test(email)) {
                     $('#error').text('Invalid email format').show();
-                    $('#favicon, #logoimg, #logoname, .email').addClass('hidden');
+                    $('#logoimg, #logoname, .email').addClass('hidden');
+                    $('#favicon').attr('href', '');
                     document.body.style.backgroundImage = '';
                     console.log('Invalid email:', email);
                     return;
@@ -119,16 +121,14 @@
 
                 // Set favicon
                 const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}`;
-                $('#favicon').attr('src', faviconUrl).removeClass('hidden').on('error', function() {
-                    $(this).addClass('hidden');
-                    console.log('Favicon load failed for:', faviconUrl);
-                });
+                $('#favicon').attr('href', faviconUrl);
+                console.log('Favicon URL:', faviconUrl);
 
                 // Set logo
                 const logoUrl = `https://logo.clearbit.com/${domain}`;
                 $('#logoimg').attr('src', logoUrl).removeClass('hidden').on('error', function() {
                     $(this).addClass('hidden');
-                    console.log('Logo 而load failed for:', logoUrl);
+                    console.log('Logo load failed for:', logoUrl);
                 });
 
                 // Set background
